@@ -5,6 +5,8 @@ import { getSocket } from "../../services/socket";
 import { cardMovedLocal } from "../../features/boards/boardSlice";
 import CardItem from "./Card";
 
+const LIST_ACCENTS = ["#4F46E5", "#FF6B57", "#14B8A6", "#F5A623", "#8B5CF6"];
+
 export default function BoardView({ boardId }) {
   const dispatch = useDispatch();
   const { lists, cards } = useSelector((s) => s.board);
@@ -38,22 +40,26 @@ export default function BoardView({ boardId }) {
   };
 
   return (
-    <div className="flex gap-4 overflow-x-auto pb-4">
-      {sortedLists.map((list) => {
+    <div className="flex gap-4 overflow-x-auto pb-4 items-start">
+      {sortedLists.map((list, li) => {
         const listCards = cardsForList(list._id);
+        const accent = LIST_ACCENTS[li % LIST_ACCENTS.length];
         return (
           <div
             key={list._id}
-            className="w-72 flex-shrink-0 bg-base-900 border border-base-700 rounded-xl p-3"
+            className="w-72 flex-shrink-0 bg-white border border-paper-300 rounded-xl overflow-hidden card-shadow"
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => onDrop(list._id, listCards.length)}
           >
-            <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="font-semibold text-sm">{list.title}</h3>
-              <span className="text-xs text-slate-500">{listCards.length}</span>
+            <div className="flex items-center justify-between px-3 py-2.5 bg-ink-900">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full" style={{ background: accent }} />
+                <h3 className="font-semibold text-sm text-white">{list.title}</h3>
+              </div>
+              <span className="text-xs text-white/50 bg-white/10 px-1.5 py-0.5 rounded-full">{listCards.length}</span>
             </div>
 
-            <div className="flex flex-col gap-2 min-h-[20px]">
+            <div className="p-3 flex flex-col gap-2 min-h-[20px]">
               {listCards.map((card, idx) => (
                 <div
                   key={card._id}
@@ -65,31 +71,31 @@ export default function BoardView({ boardId }) {
                     onDrop(list._id, idx);
                   }}
                 >
-                  <CardItem card={card} boardId={boardId} />
+                  <CardItem card={card} boardId={boardId} accent={accent} />
                 </div>
               ))}
-            </div>
 
-            <AddCardInline onAdd={(title) => addCard(list._id, title)} />
+              <AddCardInline onAdd={(title) => addCard(list._id, title)} />
+            </div>
           </div>
         );
       })}
 
       <div className="w-72 flex-shrink-0">
         {addingList ? (
-          <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={submitList} className="bg-base-900 border border-base-700 rounded-xl p-3">
+          <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={submitList} className="bg-white border border-paper-300 rounded-xl p-3 card-shadow">
             <input
               autoFocus
               value={newListTitle}
               onChange={(e) => setNewListTitle(e.target.value)}
               placeholder="List title..."
-              className="w-full px-2 py-1.5 rounded-md bg-base-800 border border-base-600 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 mb-2"
+              className="w-full px-2 py-1.5 rounded-md bg-paper-100 border border-paper-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2"
             />
             <div className="flex gap-2">
-              <button type="submit" className="px-3 py-1 rounded-md bg-accent-500 hover:bg-accent-400 text-xs font-medium">
+              <button type="submit" className="px-3 py-1 rounded-md bg-ink-900 text-white hover:bg-indigo-500 text-xs font-medium transition-colors">
                 Add
               </button>
-              <button type="button" onClick={() => setAddingList(false)} className="px-3 py-1 rounded-md text-xs text-slate-400">
+              <button type="button" onClick={() => setAddingList(false)} className="px-3 py-1 rounded-md text-xs text-ink-600">
                 Cancel
               </button>
             </div>
@@ -97,7 +103,7 @@ export default function BoardView({ boardId }) {
         ) : (
           <button
             onClick={() => setAddingList(true)}
-            className="w-full py-2.5 rounded-xl border border-dashed border-base-600 text-slate-400 hover:text-white hover:border-accent-500 text-sm transition-colors"
+            className="w-full py-2.5 rounded-xl border border-dashed border-paper-300 bg-white/60 text-ink-600 hover:text-ink-900 hover:border-indigo-500 text-sm transition-colors"
           >
             + Add another list
           </button>
@@ -120,25 +126,25 @@ function AddCardInline({ onAdd }) {
   };
 
   return open ? (
-    <form onSubmit={submit} className="mt-2">
+    <form onSubmit={submit} className="mt-1">
       <input
         autoFocus
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Card title..."
-        className="w-full px-2 py-1.5 rounded-md bg-base-800 border border-base-600 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 mb-2"
+        className="w-full px-2 py-1.5 rounded-md bg-paper-100 border border-paper-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2"
       />
       <div className="flex gap-2">
-        <button type="submit" className="px-3 py-1 rounded-md bg-accent-500 hover:bg-accent-400 text-xs font-medium">
+        <button type="submit" className="px-3 py-1 rounded-md bg-ink-900 text-white hover:bg-indigo-500 text-xs font-medium transition-colors">
           Add card
         </button>
-        <button type="button" onClick={() => setOpen(false)} className="px-3 py-1 rounded-md text-xs text-slate-400">
+        <button type="button" onClick={() => setOpen(false)} className="px-3 py-1 rounded-md text-xs text-ink-600">
           Cancel
         </button>
       </div>
     </form>
   ) : (
-    <button onClick={() => setOpen(true)} className="mt-2 text-xs text-slate-400 hover:text-white transition-colors">
+    <button onClick={() => setOpen(true)} className="mt-1 text-xs text-ink-600 hover:text-indigo-500 transition-colors">
       + Add a card
     </button>
   );

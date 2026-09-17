@@ -14,7 +14,7 @@ export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
     const result = await dispatch(login({ email, password }));
-    if (login.fulfilled.match(result)) navigate("/");
+    if (login.fulfilled.match(result)) navigate("/dashboard");
   };
 
   return (
@@ -23,42 +23,45 @@ export default function Login() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         onSubmit={submit}
-        className="w-full max-w-sm bg-base-900 border border-base-700 rounded-2xl p-8 card-shadow"
+        className="w-full max-w-sm bg-white border border-paper-300 rounded-2xl p-8 panel-shadow"
       >
-        <h1 className="text-2xl font-bold mb-1">Welcome back</h1>
-        <p className="text-slate-400 text-sm mb-6">Sign in to your workspace</p>
+        <Link to="/" className="inline-flex w-10 h-10 rounded-lg bg-ink-900 items-center justify-center font-bold text-white font-display mb-5">
+          F
+        </Link>
+        <h1 className="text-2xl font-bold mb-1 font-display">Welcome back</h1>
+        <p className="text-ink-600 text-sm mb-6">Sign in to your workspace</p>
 
-        <label className="text-sm text-slate-300">Email</label>
+        <label className="text-sm text-ink-700 font-medium">Email</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full mt-1 mb-4 px-3 py-2 rounded-lg bg-base-800 border border-base-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+          className="w-full mt-1 mb-4 px-3 py-2 rounded-lg bg-paper-100 border border-paper-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
 
-        <label className="text-sm text-slate-300">Password</label>
+        <label className="text-sm text-ink-700 font-medium">Password</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full mt-1 mb-6 px-3 py-2 rounded-lg bg-base-800 border border-base-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+          className="w-full mt-1 mb-6 px-3 py-2 rounded-lg bg-paper-100 border border-paper-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
 
-        {error && <p className="text-rose-400 text-sm mb-4">{error}</p>}
+        {error && <p className="text-coral-500 text-sm mb-4">{error}</p>}
 
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full py-2.5 rounded-lg bg-accent-500 hover:bg-accent-400 transition-colors font-medium disabled:opacity-50"
+          className="w-full py-2.5 rounded-lg bg-ink-900 text-white hover:bg-indigo-500 transition-colors font-medium disabled:opacity-50"
         >
           {status === "loading" ? "Signing in..." : "Sign In"}
         </button>
 
-        <p className="text-sm text-slate-400 mt-4 text-center">
+        <p className="text-sm text-ink-600 mt-4 text-center">
           No account?{" "}
-          <Link to="/register" className="text-accent-400 hover:underline">
+          <Link to="/register" className="text-indigo-500 font-medium hover:underline">
             Create one
           </Link>
         </p>

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import { getSocket } from "../../services/socket";
 
-const COLORS = ["#f8fafc", "#f87171", "#fbbf24", "#4ade80", "#60a5fa", "#c084fc"];
+const COLORS = ["#111111", "#4F46E5", "#FF6B57", "#14B8A6", "#F5A623", "#8B5CF6"];
 
 export default function Whiteboard({ boardId }) {
   const canvasRef = useRef(null);
@@ -104,13 +104,15 @@ export default function Whiteboard({ boardId }) {
   const undo = () => getSocket()?.emit("whiteboard:undo", { boardId });
 
   return (
-    <div>
-      <div className="flex items-center gap-3 mb-3">
+    <div className="bg-white border border-paper-300 rounded-xl overflow-hidden card-shadow">
+      <div className="flex items-center gap-3 px-4 py-2.5 bg-ink-900">
         {COLORS.map((c) => (
           <button
             key={c}
             onClick={() => setColor(c)}
-            className={`w-6 h-6 rounded-full border-2 ${color === c ? "border-white" : "border-transparent"}`}
+            className={`w-6 h-6 rounded-full border-2 transition-transform ${
+              color === c ? "border-white scale-110" : "border-white/20"
+            }`}
             style={{ background: c }}
           />
         ))}
@@ -120,19 +122,19 @@ export default function Whiteboard({ boardId }) {
           max={12}
           value={width}
           onChange={(e) => setWidth(Number(e.target.value))}
-          className="w-24"
+          className="w-24 accent-indigo-500"
         />
-        <button onClick={undo} className="ml-auto px-3 py-1 text-xs rounded-md bg-base-800 border border-base-700 hover:border-accent-500">
+        <button onClick={undo} className="ml-auto px-3 py-1 text-xs rounded-md bg-white/10 text-white hover:bg-teal-500 transition-colors">
           Undo
         </button>
-        <button onClick={clearBoard} className="px-3 py-1 text-xs rounded-md bg-base-800 border border-base-700 hover:border-rose-500">
+        <button onClick={clearBoard} className="px-3 py-1 text-xs rounded-md bg-white/10 text-white hover:bg-coral-500 transition-colors">
           Clear
         </button>
       </div>
 
       <canvas
         ref={canvasRef}
-        className="w-full rounded-xl bg-base-900 border border-base-700 cursor-crosshair touch-none"
+        className="w-full bg-white cursor-crosshair touch-none block"
         onMouseDown={handlePointerDown}
         onMouseMove={handlePointerMove}
         onMouseUp={handlePointerUp}

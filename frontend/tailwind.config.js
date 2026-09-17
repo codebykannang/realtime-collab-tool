@@ -4,20 +4,45 @@ export default {
   theme: {
     extend: {
       colors: {
-        base: {
-          950: "#0a0e14",
-          900: "#0f1520",
-          800: "#161d2b",
-          700: "#232c3f",
-          600: "#33405a",
+        ink: {
+          950: "#0a0a0a",
+          900: "#111111",
+          800: "#1b1b1b",
+          700: "#2b2b2b",
+          600: "#4a4a4a",
+          400: "#8a8a86",
         },
-        accent: {
-          500: "#6366f1",
-          400: "#818cf8",
+        paper: {
+          DEFAULT: "#ffffff",
+          50: "#ffffff",
+          100: "#f8f8f6",
+          200: "#f0f0ec",
+          300: "#e4e4df",
+        },
+        indigo: {
+          500: "#4F46E5",
+          400: "#6C63EE",
+        },
+        coral: {
+          500: "#FF6B57",
+          400: "#FF8571",
+        },
+        teal: {
+          500: "#14B8A6",
+          400: "#2DD4C0",
+        },
+        amber: {
+          500: "#F5A623",
+          400: "#FFBB4D",
+        },
+        violet: {
+          500: "#8B5CF6",
+          400: "#A78BFA",
         },
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "system-ui", "sans-serif"],
       },
     },
   },

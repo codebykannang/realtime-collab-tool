@@ -85,7 +85,7 @@ export default function BoardPage() {
   );
 
   if (!activeBoard) {
-    return <div className="p-10 text-slate-400 text-sm">Loading board...</div>;
+    return <div className="p-10 text-ink-400 text-sm">Loading board...</div>;
   }
 
   return (
@@ -102,20 +102,20 @@ export default function BoardPage() {
             <svg width="16" height="16" viewBox="0 0 16 16" fill={c.color}>
               <path d="M0 0l6 14 2-6 6-2z" />
             </svg>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-base-800 border border-base-700">{c.name}</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-ink-900 text-white">{c.name}</span>
           </motion.div>
         )
       )}
 
-      <div className="px-6 pt-4 flex items-center justify-between border-b border-base-800">
+      <div className="px-6 pt-4 flex items-center justify-between border-b border-paper-300">
         <div>
-          <h1 className="text-xl font-bold">{activeBoard.title}</h1>
+          <h1 className="text-xl font-bold font-display">{activeBoard.title}</h1>
           <div className="flex items-center -space-x-2 mt-1">
             {presence.map((p) => (
               <div
                 key={p.socketId}
                 title={p.name}
-                className="w-6 h-6 rounded-full border-2 border-base-950 flex items-center justify-center text-[10px] font-semibold"
+                className="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-semibold text-white"
                 style={{ background: p.color }}
               >
                 {p.name?.[0]?.toUpperCase()}
@@ -124,13 +124,13 @@ export default function BoardPage() {
           </div>
         </div>
 
-        <div className="flex gap-1 bg-base-900 rounded-lg p-1 border border-base-700">
+        <div className="flex gap-1 bg-ink-900 rounded-lg p-1">
           {["board", "whiteboard", "chat"].map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-1.5 rounded-md text-sm capitalize transition-colors ${
-                tab === t ? "bg-accent-500 text-white" : "text-slate-400 hover:text-white"
+                tab === t ? "bg-indigo-500 text-white" : "text-white/60 hover:text-white"
               }`}
             >
               {t}

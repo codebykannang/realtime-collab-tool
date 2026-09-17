@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fetchBoards, createBoard } from "../features/boards/boardSlice";
 
+const CARD_COLORS = ["#4F46E5", "#FF6B57", "#14B8A6", "#F5A623", "#8B5CF6", "#111111"];
+
 export default function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,12 +32,12 @@ export default function Dashboard() {
     <div className="max-w-6xl mx-auto px-6 py-10">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold">Your Boards</h1>
-          <p className="text-slate-400 text-sm mt-1">Live collaborative project boards, chat & whiteboards</p>
+          <h1 className="text-2xl font-bold font-display">Your Boards</h1>
+          <p className="text-ink-600 text-sm mt-1">Live collaborative project boards, chat & whiteboards</p>
         </div>
         <button
           onClick={() => setCreating(true)}
-          className="px-4 py-2 rounded-lg bg-accent-500 hover:bg-accent-400 font-medium text-sm transition-colors"
+          className="px-4 py-2 rounded-lg bg-ink-900 text-white hover:bg-indigo-500 font-medium text-sm transition-colors"
         >
           + New Board
         </button>
@@ -53,9 +55,9 @@ export default function Dashboard() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Board title..."
-            className="flex-1 px-3 py-2 rounded-lg bg-base-800 border border-base-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+            className="flex-1 px-3 py-2 rounded-lg bg-white border border-paper-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          <button type="submit" className="px-4 py-2 rounded-lg bg-accent-500 hover:bg-accent-400 text-sm font-medium">
+          <button type="submit" className="px-4 py-2 rounded-lg bg-ink-900 text-white hover:bg-indigo-500 text-sm font-medium transition-colors">
             Create
           </button>
         </motion.form>
@@ -69,15 +71,15 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.04 }}
             onClick={() => navigate(`/boards/${b._id}`)}
-            className="cursor-pointer rounded-xl h-32 p-4 flex flex-col justify-between border border-base-700 hover:border-accent-500/60 transition-colors card-shadow"
-            style={{ background: b.background || "#161d2b" }}
+            className="cursor-pointer rounded-xl h-32 p-4 flex flex-col justify-between border border-ink-900/10 hover:-translate-y-0.5 transition-transform card-shadow"
+            style={{ background: b.background || CARD_COLORS[i % CARD_COLORS.length] }}
           >
-            <h3 className="font-semibold">{b.title}</h3>
-            <p className="text-xs text-slate-300/80">{b.members?.length || 1} member(s)</p>
+            <h3 className="font-semibold text-white font-display">{b.title}</h3>
+            <p className="text-xs text-white/75">{b.members?.length || 1} member(s)</p>
           </motion.div>
         ))}
         {boards.length === 0 && !creating && (
-          <div className="col-span-full text-center py-16 text-slate-500 text-sm">
+          <div className="col-span-full text-center py-16 text-ink-400 text-sm bg-white/60 rounded-xl border border-dashed border-paper-300">
             No boards yet — create your first one to start collaborating live.
           </div>
         )}
